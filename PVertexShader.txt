@@ -1,0 +1,24 @@
+#version 400 core
+
+in vec3 inPos;
+in vec4 inColor;
+in vec3 inNormal;
+
+out vec3 vPos;
+out vec3 vNormal;
+out vec4 vColor;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 proj;
+
+void main()
+{
+    vec4 worldPos = model * vec4(inPos, 1.0);
+    vPos = vec3(view * worldPos);
+    
+    vNormal = mat3(transpose(inverse(model))) * inNormal;
+    vColor = inColor;
+    
+    gl_Position = proj * view * worldPos;
+}
